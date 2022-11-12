@@ -170,7 +170,7 @@ class Resource(models.Model):
 
 
 class TopologyClass(models.Model):
-    class_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     class_name = models.CharField(max_length=100)
     node_count = models.IntegerField
 
