@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html></html>
+<link rel="stylesheet" href="{% static 'main.css' %}">
+<body>
+    <table id="maintable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Network IP:port</th>
+          <th>Power server:slot</th>
+          <th>Console server:port</th>
+          <th>Time owned</th>
+          <th>Owner</th>
+          <th>Platform</th>
+          <th>Chip</th>
+          <th>Last Request</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for resource in resources %}
+        <tr>
+          <td>{{resource.resource_id}}</td>
+          <td>{{resource.description}}</td>
+          <td>{{resource.network_ip}}</td>
+          <td>{{resource.power_ip_port}}</td>
+          <td>{{resource.console_ip_port}}</td>
+          <td></td>
+          <td></td>
+          <td>{{resource.platform_type}}</td>
+          <td>{{resource.Chip}}</td>
+          <td></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+</body>
+</html>

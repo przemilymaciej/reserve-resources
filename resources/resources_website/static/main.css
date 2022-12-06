@@ -1,0 +1,25 @@
+body {
+    background-color: lightblue;
+    font-family: verdana;
+  }
+
+#maintable {
+    width: 100%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color: #1E90FF;
+    border-style: solid;
+    color: #000000;
+}
+
+#maintable td, #maintable th {
+    border-width: 2px;
+    border-color: #1E90FF;
+    border-style: solid;
+    padding: 3px;
+}
+
+#maintable thead {
+    background-color: #1E90FF;
+}
