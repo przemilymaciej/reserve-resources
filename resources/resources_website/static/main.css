@@ -5,21 +5,30 @@ body {
 
 #maintable {
     width: 100%;
-    background-color: #ffffff;
+    background-color:#F0F0F0;
     border-collapse: collapse;
     border-width: 2px;
-    border-color: #1E90FF;
+    border-color: 	#B8B8B8;
     border-style: solid;
     color: #000000;
 }
 
 #maintable td, #maintable th {
     border-width: 2px;
-    border-color: #1E90FF;
+    border-color: 	#B8B8B8;
     border-style: solid;
     padding: 3px;
 }
 
 #maintable thead {
     background-color: #1E90FF;
+    color: white;
+}
+
+.content {
+    margin: 12pt;
+}
+
+td #checkbox {
+    text-align: center;
 }
