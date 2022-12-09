@@ -3,6 +3,15 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'main.css' %}">
 
+<div id="limit">
+  <form>
+    <label id="limit_label">
+      Acquire as user:
+      <input id="limit_input">
+    </label>
+  </form>
+</div>
+
 <table id="maintable" class="table-sm table-striped table-bordered table-hover">
       <thead>
         <tr>
@@ -22,7 +31,14 @@
       <tbody>
       {% for resource in resources %}
         <tr>
-          <td>{{resource.resource_id}}</td>
+          <td style="width:50px;">
+            <form>
+              <label id="resource_label">
+                {{resource.resource_id}}
+                <input type="checkbox" id="resource_checkbox">
+              </label>
+            </form>
+          </td>
           <td>{{resource.description}}</td>
           <td>{{resource.network_ip}}</td>
           <td>{{resource.power_ip_port}}</td>
@@ -30,7 +46,7 @@
           <td></td>
           <td></td>
           <td>{{resource.platform_type}}</td>
-          <td>{{resource.Chip}}</td>
+          <td>{{resource.chip.chip_name}}</td>
           <td></td>
         </tr>
       {% endfor %}

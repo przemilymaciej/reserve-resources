@@ -7,14 +7,14 @@ body {
     width: 100%;
     background-color:#F0F0F0;
     border-collapse: collapse;
-    border-width: 2px;
+    border-width: 1.5px;
     border-color: 	#B8B8B8;
     border-style: solid;
     color: #000000;
 }
 
 #maintable td, #maintable th {
-    border-width: 2px;
+    border-width: 1px;
     border-color: 	#B8B8B8;
     border-style: solid;
     padding: 3px;
@@ -31,4 +31,28 @@ body {
 
 td #checkbox {
     text-align: center;
+}
+
+#resource_checkbox {
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+}
+
+#resource_label {
+    display: block;
+    text-align: right;
+}
+
+#limit_label {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    display: block;
+}
+
+#limit_input {
+    margin-left: 4px;
+    bottom: 3px;
+    position: relative;
 }
