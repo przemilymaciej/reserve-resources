@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'main.css' %}">
 
-<div id="limit">
+<div id="limit_cont">
   <form>
     <label id="limit_label">
       Acquire as user:
@@ -11,6 +11,29 @@
     </label>
   </form>
 </div>
+
+
+<div id="reserve_buttons">
+  <a style="font-size: 90%;">Immediate reservation of checked resources</a>
+  <span class="comment">
+    (4 steps in one click)
+  </span>
+  <br/>
+  <a>Release reservation of checked resources</a> |
+  <a>Reserve checked resources</a>
+  <span class="comment">
+    (Lock a rig to your username, even if you release it)
+  </span>
+  <br/>
+  <span style=" font-size: 110%;">
+    <a>Release requested checked resources</a> |
+    <a>Request checked resources</a>
+  </span>
+  <span class="comment">
+    (Normal box usage)
+  </span>
+</div>
+
 
 <table id="maintable" class="table-sm table-striped table-bordered table-hover">
       <thead>
