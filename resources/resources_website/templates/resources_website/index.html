@@ -34,6 +34,10 @@
   </span>
 </div>
 
+<form method="get">
+  {{myFilter.form}}
+  <button class="btn btn-primary" type="submit">Search</button>
+</form>
 
 <table id="maintable" class="table-sm table-striped table-bordered table-hover">
       <thead>
@@ -45,6 +49,7 @@
           <th>Console server:port</th>
           <th>Time owned</th>
           <th>Owner</th>
+          <th>Location</th>
           <th>Platform</th>
           <th>Chip</th>
           <th>Last Request</th>
@@ -67,7 +72,8 @@
           <td>{{resource.power_ip_port}}</td>
           <td>{{resource.console_ip_port}}</td>
           <td></td>
-          <td></td>
+          <td>{{resource.request_id.user}}</td>
+          <td>{{resource.location}}</td>
           <td>{{resource.platform_type}}</td>
           <td>{{resource.chip.chip_name}}</td>
           <td></td>
