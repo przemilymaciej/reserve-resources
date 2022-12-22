@@ -3,6 +3,54 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'main.css' %}">
 
+<script type="text/javascript">
+  function checked_items_release() {
+    var items = "";
+    var el = document.getElementsByName('resource_checkbox')
+    for (var i=0; i < el.length; i++){
+      if(el[i].checked) {
+        items += "," + el[i].value;
+      }
+    }
+    if(items != "") {
+      alert("release");
+
+      for (var i=0; i < el.length; i++){
+        if(el[i].checked) {
+          el[i].checked = false;
+        }
+      }
+
+    } else {
+      alert("Error: No Resources selected.");
+    }
+  }
+
+  function checked_items_reserve() {
+    var items = "";
+    var el = document.getElementsByName('resource_checkbox')
+    for (var i=0; i < el.length; i++){
+      if(el[i].checked) {
+        items += "," + el[i].value;
+      }
+    }
+    if(items != "") {
+      alert("reserve");
+
+      for (var i=0; i < el.length; i++){
+        if(el[i].checked) {
+          el[i].checked = false;
+        }
+      }
+
+    } else {
+      alert("Error: No Resources selected.");
+    }
+  }
+
+</script>
+
+
 <div id="limit_cont">
   <form>
     <label id="limit_label">
@@ -14,20 +62,20 @@
 
 
 <div id="reserve_buttons">
-  <a style="font-size: 90%;">Immediate reservation of checked resources</a>
+  <a style="font-size: 90%;" onClick="checked_items_reserve()">Immediate reservation of checked resources</a>
   <span class="comment">
     (4 steps in one click)
   </span>
   <br/>
-  <a>Release reservation of checked resources</a> |
-  <a>Reserve checked resources</a>
+  <a onClick="checked_items_release()">Release reservation of checked resources</a> |
+  <a onClick="checked_items_reserve()">Reserve checked resources</a>
   <span class="comment">
     (Lock a rig to your username, even if you release it)
   </span>
   <br/>
   <span style=" font-size: 110%;">
-    <a>Release requested checked resources</a> |
-    <a>Request checked resources</a>
+    <a onClick="checked_items_release()">Release requested checked resources</a> |
+    <a onClick="checked_items_reserve()">Request checked resources</a>
   </span>
   <span class="comment">
     (Normal box usage)
@@ -63,7 +111,7 @@
             <form>
               <label id="resource_label">
                 {{resource.resource_id}}
-                <input type="checkbox" id="resource_checkbox">
+                <input type="checkbox" class="resource_checkbox" name="resource_checkbox" value="{{ resource.resource_id }}">
               </label>
             </form>
           </td>

@@ -34,7 +34,7 @@ td #checkbox {
     text-align: center;
 }
 
-#resource_checkbox {
+.resource_checkbox {
     vertical-align: middle;
     position: relative;
     bottom: 1px;
