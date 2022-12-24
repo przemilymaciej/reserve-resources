@@ -5,46 +5,44 @@
 
 <script type="text/javascript">
   function checked_items_release() {
+    var token = $('input[name=csrfmiddlewaretoken]').val()
     var items = "";
     var el = document.getElementsByName('resource_checkbox')
+
     for (var i=0; i < el.length; i++){
       if(el[i].checked) {
         items += "," + el[i].value;
       }
     }
-    if(items != "") {
-      alert("release");
 
-      for (var i=0; i < el.length; i++){
-        if(el[i].checked) {
-          el[i].checked = false;
+      if(items != "") {
+
+        for (var i=0; i < el.length; i++){
+          if(el[i].checked) {
+            el[i].checked = false;
+          }
         }
-      }
 
-    } else {
-      alert("Error: No Resources selected.");
-    }
-  }
+        var toIter = items.split(',');
 
-  function checked_items_reserve() {
-    var items = "";
-    var el = document.getElementsByName('resource_checkbox')
-    for (var i=0; i < el.length; i++){
-      if(el[i].checked) {
-        items += "," + el[i].value;
-      }
-    }
-    if(items != "") {
-      alert("reserve");
+        $.ajax({
+          method: 'POST',
+          url: 'release_resources',
+          data: {
+              'items' : items,
+              csrfmiddlewaretoken: token
 
-      for (var i=0; i < el.length; i++){
-        if(el[i].checked) {
-          el[i].checked = false;
-        }
-      }
+          },
+          success: function(res) {
+              for (var i=0; i < toIter.length; i++){
+                $("#resource_user_" + toIter[i]).text("");
+              }
 
-    } else {
-      alert("Error: No Resources selected.");
+          },
+          error: function(res) {
+              alert(res)
+          }
+      })
     }
   }
 
@@ -59,7 +57,6 @@
     </label>
   </form>
 </div>
-
 
 <div id="reserve_buttons">
   <a style="font-size: 90%;" onClick="checked_items_reserve()">Immediate reservation of checked resources</a>
@@ -120,7 +117,7 @@
           <td>{{resource.power_ip_port}}</td>
           <td>{{resource.console_ip_port}}</td>
           <td></td>
-          <td>{{resource.request_id.user}}</td>
+          <td id="resource_user_{{ resource.pk }}">{{resource.request_id.user}}</td>
           <td>{{resource.location}}</td>
           <td>{{resource.platform_type}}</td>
           <td>{{resource.chip.chip_name}}</td>
