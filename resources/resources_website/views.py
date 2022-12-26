@@ -7,8 +7,9 @@ from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 
 
-from .models import Resource
+from .models import Resource, Request, User
 from .filters import ResourceFilter
+from django.utils import timezone
 
 class FilteredListView(generic.ListView):
     filterset_class = None
@@ -48,23 +49,6 @@ class IndexView(generic.ListView):
         return context
 
 
-# class AjaxHandlerView(View):
-#     def post(self, request):
-#         id = request.GET.get('id')
-#         print(id)
-#         return render(request, 'resources_website/index.html')
-
-# def release_resources(request):
-#     # print(request.GET['id'])
-#     print("sialala")
-
-# def release_resources(request):
-#     if request.method == 'GET':
-#            post_id = request.GET['post_id']
-#            return HttpResponse("Success!") # Sending an success response
-#     else:
-#            return HttpResponse("Request method is not a GET")
-
 def release_resources(request):
     if request.method == 'POST':
         items = request.POST.get('items')
@@ -76,5 +60,30 @@ def release_resources(request):
             el.save()
 
         return JsonResponse({'status': 'Resource released'})
+
+    return redirect('/')
+
+
+def reserve_resources(request):
+    if request.method == 'POST':
+        items = request.POST.get('items')
+        user_name = request.POST.get('user')
+        to_find = items.split(',')[1:]
+
+        try:
+            owner = User.objects.get(user = user_name)
+        except User.DoesNotExist:
+            print("user doesn't exist")
+            return JsonResponse({'message': 'This user doesnt exist in our database!'}, status=400)
+
+        new_request = Request(status='GRANTED', user=owner, time_requested=timezone.now(), time_granted = timezone.now())
+        new_request.save()
+
+        for id in to_find:
+            el = Resource.objects.get(pk=id)
+            el.request_id = new_request
+            el.save()
+
+        return JsonResponse({'user': str(owner)})
 
     return redirect('/')

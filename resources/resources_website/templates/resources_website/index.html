@@ -42,10 +42,73 @@
           error: function(res) {
               alert(res)
           }
-      })
+        })
+    } else {
+      alert("Any platform is not checked")
     }
   }
 
+</script>
+
+<script type="text/javascript">
+  function reserve_platforms() {
+    var token = $('input[name=csrfmiddlewaretoken]').val()
+    var user = document.getElementById('limit_input').value;
+    var items = "";
+    var el = document.getElementsByName('resource_checkbox')
+
+
+    if (user != "") {
+      for (var i=0; i < el.length; i++){
+        if(el[i].checked) {
+          items += "," + el[i].value;
+        }
+      }
+
+        if(items != "") {
+          for (var i=0; i < el.length; i++){
+            if(el[i].checked) {
+              el[i].checked = false;
+            }
+          }
+
+          var toIter = items.split(',');
+
+          $.ajax({
+            method: 'POST',
+            url: 'reserve_resources',
+            data: {
+                'user' : user,
+                'items' : items,
+                csrfmiddlewaretoken: token
+
+            },
+
+            success: function(res) {
+                alert("ok - reserved")
+                console.log(res.user);
+
+                for (var i=0; i < toIter.length; i++){
+                  $("#resource_user_" + toIter[i]).text(res.user);
+                }
+
+            },
+
+            error: function(res) {
+                var jsonResponse = JSON.parse(res.responseText);
+                alert(jsonResponse['message']);
+            }
+          })
+
+          var toIter = items.split(',');
+        } else {
+          alert("Any platform is not checked")
+        }
+    }
+    else {
+      alert("User is not provided!")
+    }
+  }
 </script>
 
 
@@ -59,20 +122,20 @@
 </div>
 
 <div id="reserve_buttons">
-  <a style="font-size: 90%;" onClick="checked_items_reserve()">Immediate reservation of checked resources</a>
+  <a style="font-size: 90%;" onClick="reserve_platforms()">Immediate reservation of checked resources</a>
   <span class="comment">
     (4 steps in one click)
   </span>
   <br/>
   <a onClick="checked_items_release()">Release reservation of checked resources</a> |
-  <a onClick="checked_items_reserve()">Reserve checked resources</a>
+  <a onClick="reserve_platforms()">Reserve checked resources</a>
   <span class="comment">
     (Lock a rig to your username, even if you release it)
   </span>
   <br/>
   <span style=" font-size: 110%;">
     <a onClick="checked_items_release()">Release requested checked resources</a> |
-    <a onClick="checked_items_reserve()">Request checked resources</a>
+    <a onClick="reserve_platforms()">Request checked resources</a>
   </span>
   <span class="comment">
     (Normal box usage)
