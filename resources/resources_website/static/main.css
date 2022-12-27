@@ -89,3 +89,9 @@ td #checkbox {
 span .comment {
     font-weight: lighter;
 }
+
+.range_label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #00308F;
+}

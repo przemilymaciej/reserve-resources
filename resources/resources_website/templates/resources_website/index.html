@@ -111,6 +111,26 @@
 </script>
 
 
+<script type="text/javascript">
+  function check_platforms() {
+    var firstRange = Number(document.getElementById('firstRange').value)
+    var secondRange = Number(document.getElementById('secondRange').value)
+    var el = document.getElementsByName('resource_checkbox')
+
+    for (var i=0; i < el.length; i++){
+      el[i].checked = false;
+    }
+
+    if (firstRange != "" && secondRange != "" && firstRange <= secondRange) {
+      for (var i=firstRange; i <= secondRange; i++){
+         el[i-1].checked = true;
+      }
+    }
+
+  }
+</script>
+
+
 <div id="limit_cont">
   <form>
     <label id="limit_label">
@@ -143,8 +163,14 @@
 
 <form method="get">
   {{myFilter.form}}
-  <button class="btn btn-primary" type="submit">Search</button>
+  <button class="btn btn-primary ml-1" type="submit">Filter</button>
 </form>
+
+<div id="range">
+  <p class="range_label mb-2">Select in range:</p>
+  <input type="number" id="firstRange" min="1" max={{ resources|length }} style="width:45px" onchange="check_platforms()"> -
+  <input type="number" id="secondRange" min="1" max={{ resources|length }} style="width:45px" onchange="check_platforms()">
+</div>
 
 <table id="maintable" class="table-sm table-striped table-bordered table-hover">
       <thead>
