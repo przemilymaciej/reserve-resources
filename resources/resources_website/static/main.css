@@ -95,3 +95,8 @@ span .comment {
     font-weight: bold;
     color: #00308F;
 }
+
+.footer-copyright {
+    color: #127CC1;
+    font-size: 12px;
+}
