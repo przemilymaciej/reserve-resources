@@ -57,6 +57,7 @@ def release_resources(request):
         for id in to_find:
             el = Resource.objects.get(pk=id)
             el.request_id = None
+            el.status = 'FREE_REQUESTED'
             el.save()
 
         return JsonResponse({'status': 'Resource released'})
@@ -73,8 +74,23 @@ def reserve_resources(request):
         try:
             owner = User.objects.get(user = user_name)
         except User.DoesNotExist:
-            print("user doesn't exist")
             return JsonResponse({'message': 'This user doesnt exist in our database!'}, status=400)
+
+        reserved_list = []
+        for id in to_find:
+            el = Resource.objects.get(pk=id)
+            req = el.request_id
+
+            if req:
+                reserved_list.append(id)
+
+        if len(reserved_list) > 0:
+            if len(reserved_list) == 1:
+                message = f'Platform {reserved_list[0]} is already reserved'
+            else:
+                message = f'Platforms {reserved_list} are already reserved'
+
+            return JsonResponse({'message': message}, status=400)
 
         new_request = Request(status='GRANTED', user=owner, time_requested=timezone.now(), time_granted = timezone.now())
         new_request.save()
