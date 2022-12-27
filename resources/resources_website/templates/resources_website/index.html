@@ -85,10 +85,10 @@
             },
 
             success: function(res) {
-                console.log(res.user);
 
                 for (var i=0; i < toIter.length; i++){
                   $("#resource_user_" + toIter[i]).text(res.user);
+                  $("#last_request_" + toIter[i]).text(res.request_id + ' - ' + res.user_name);
                 }
 
             },
@@ -195,21 +195,25 @@
           <td style="width:50px;">
             <form>
               <label id="resource_label">
-                {{resource.resource_id}}
+                {{ resource.resource_id }}
                 <input type="checkbox" class="resource_checkbox" name="resource_checkbox" value="{{ resource.resource_id }}">
               </label>
             </form>
           </td>
-          <td>{{resource.description}}</td>
-          <td>{{resource.network_ip}}</td>
-          <td>{{resource.power_ip_port}}</td>
-          <td>{{resource.console_ip_port}}</td>
+          <td>{{ resource.description }}</td>
+          <td>{{ resource.network_ip }}</td>
+          <td>{{ resource.power_ip_port }}</td>
+          <td>{{ resource.console_ip_port }}</td>
           <td></td>
           <td id="resource_user_{{ resource.pk }}">{{resource.request_id.user}}</td>
-          <td>{{resource.location}}</td>
-          <td>{{resource.platform_type}}</td>
-          <td>{{resource.chip.chip_name}}</td>
-          <td></td>
+          <td>{{ resource.location }}</td>
+          <td>{{ resource.platform_type }}</td>
+          <td>{{ resource.chip.chip_name }}</td>
+          {% if resource.last_request %}
+          <td id="last_request_{{ resource.pk }}">{{ resource.last_request }}</td>
+          {% else %}
+          <td id="last_request_{{ resource.pk }}"></td>
+          {% endif %}
         </tr>
       {% endfor %}
       </tbody>

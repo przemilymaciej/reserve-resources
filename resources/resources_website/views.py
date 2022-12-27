@@ -58,6 +58,8 @@ def release_resources(request):
             el = Resource.objects.get(pk=id)
             el.request_id = None
             el.status = 'FREE_REQUESTED'
+            el.is_available = 1
+            el.is_reserved = 0
             el.save()
 
         return JsonResponse({'status': 'Resource released'})
@@ -98,8 +100,11 @@ def reserve_resources(request):
         for id in to_find:
             el = Resource.objects.get(pk=id)
             el.request_id = new_request
+            el.is_available = 0
+            el.is_reserved = 1
+            el.last_request = f'{new_request.request_id} - {owner.user}'
             el.save()
 
-        return JsonResponse({'user': str(owner)})
+        return JsonResponse({'user': str(owner), 'request_id' : new_request.pk, 'user_name' : owner.user})
 
     return redirect('/')

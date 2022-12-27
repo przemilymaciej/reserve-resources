@@ -84,6 +84,14 @@ class Chip(models.Model):
         return self.chip_name
 
 
+class Location(models.Model):
+    location = models.CharField(primary_key=True, max_length=255)
+    class Meta:
+        db_table = 'location'
+    def __str__(self):
+        return self.location
+
+
 class PlatformType(models.Model):
     type_id = models.AutoField(primary_key=True)
     type_name = models.CharField(max_length=100)
@@ -106,11 +114,12 @@ class Resource(models.Model):
     chip = models.ForeignKey(Chip, null=True, on_delete = models.SET_NULL)
     rev = models.CharField(max_length=100, null=True)
     sku = models.CharField(max_length=100, null=True)
-    location = models.CharField(max_length=100, null=True)
+    location = models.ForeignKey(Location, db_column='location', on_delete = models.CASCADE, default='Gdansk')
     user = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     comment = models.TextField(max_length=100, null=True)
     workspace = models.CharField(max_length=100, null=True)
+    last_request = models.CharField(max_length=100, null=True)
 
     def ip(self):
         return "%s" % (self.network_ip)
