@@ -24,6 +24,7 @@
         }
 
         var toIter = items.split(',');
+        toIter = toIter.slice(1);
 
         $.ajax({
           method: 'POST',
@@ -36,6 +37,7 @@
           success: function(res) {
               for (var i=0; i < toIter.length; i++){
                 $("#resource_user_" + toIter[i]).text("");
+                $("#resource_time_" + toIter[i]).text(res.times[i]);
               }
 
           },
@@ -85,7 +87,6 @@
             },
 
             success: function(res) {
-
                 for (var i=0; i < toIter.length; i++){
                   $("#resource_user_" + toIter[i]).text(res.user);
                   $("#last_request_" + toIter[i]).text(res.request_id + ' - ' + res.user_name);
@@ -204,7 +205,11 @@
           <td>{{ resource.network_ip }}</td>
           <td>{{ resource.power_ip_port }}</td>
           <td>{{ resource.console_ip_port }}</td>
-          <td></td>
+          {% if resource.time_owned %}
+          <td id = "resource_time_{{ resource.pk }}">{{ resource.time_owned }}</td>
+          {% else %}
+          <td id = "resource_time_{{ resource.pk }}"></td>
+          {% endif %}
           <td id="resource_user_{{ resource.pk }}">{{resource.request_id.user}}</td>
           <td>{{ resource.location }}</td>
           <td>{{ resource.platform_type }}</td>

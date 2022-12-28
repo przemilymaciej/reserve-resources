@@ -120,6 +120,7 @@ class Resource(models.Model):
     comment = models.TextField(max_length=100, null=True)
     workspace = models.CharField(max_length=100, null=True)
     last_request = models.CharField(max_length=100, null=True)
+    time_owned = models.DurationField(null=True)
 
     def ip(self):
         return "%s" % (self.network_ip)

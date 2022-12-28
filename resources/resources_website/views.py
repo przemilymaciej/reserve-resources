@@ -53,16 +53,23 @@ def release_resources(request):
     if request.method == 'POST':
         items = request.POST.get('items')
         to_find = items.split(',')[1:]
+        times = []
 
         for id in to_find:
             el = Resource.objects.get(pk=id)
+            request = Request.objects.get(pk=el.request_id.pk)
+            request.time_completed = timezone.now()
+            request.save()
+            diff = request.time_completed - request.time_granted
+            el.time_owned = diff
+            times.append(str(diff))
             el.request_id = None
             el.status = 'FREE_REQUESTED'
             el.is_available = 1
             el.is_reserved = 0
             el.save()
 
-        return JsonResponse({'status': 'Resource released'})
+        return JsonResponse({'status': 'Resource released', 'times' : times})
 
     return redirect('/')
 
