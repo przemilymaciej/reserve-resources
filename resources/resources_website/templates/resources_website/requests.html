@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block 'content' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main.css' %}">
+
+<form method="get">
+  {{myFilter.form}}
+  <button class="btn btn-primary ml-1" type="submit">Filter</button>
+</form>
+
+<table id="maintable" class="table-sm table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Status</th>
+          <th>Time requested</th>
+          <th>Time granted</th>
+          <th>Time completed</th>
+          <th>User</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for request in requests %}
+        <tr>
+          <td style="width:50px;">
+              <label id="resource_label">
+                {{ request.request_id }}
+              </label>
+          </td>
+          <td>{{ request.status }}</td>
+          <td>{{ request.time_requested }}</td>
+          <td>{{ request.time_granted }}</td>
+          {% if request.time_completed %}
+          <td>{{ request.time_completed }}</td>
+          {% else %}
+          <td></td>
+          {% endif %}
+          <td>{{ request.user }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+</table>
+
+{% endblock %}

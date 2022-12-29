@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 
 
 from .models import Resource, Request, User
-from .filters import ResourceFilter
+from .filters import ResourceFilter, RequestFilter
 from django.utils import timezone
 
 class FilteredListView(generic.ListView):
@@ -26,6 +26,7 @@ class FilteredListView(generic.ListView):
 
         context['filterset'] = self.filterset
         return context
+
 
 class IndexView(generic.ListView):
     model = Resource
@@ -49,6 +50,28 @@ class IndexView(generic.ListView):
         return context
 
 
+class RequestView(generic.ListView):
+    model = Request
+    template_name = 'resources_website/requests.html'
+    filterset_class = RequestFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+
+        return self.filterset.qs.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        myFilter = RequestFilter(self.request.GET.get(''), queryset=self.get_queryset().order_by('request_id'))
+
+        requests = myFilter.qs
+
+        context['requests'] = requests
+        context['myFilter'] = myFilter
+        return context
+
+
 def release_resources(request):
     if request.method == 'POST':
         items = request.POST.get('items')
@@ -59,6 +82,7 @@ def release_resources(request):
             el = Resource.objects.get(pk=id)
             request = Request.objects.get(pk=el.request_id.pk)
             request.time_completed = timezone.now()
+            request.status = 'COMPLETED'
             request.save()
             diff = request.time_completed - request.time_granted
             el.time_owned = diff
